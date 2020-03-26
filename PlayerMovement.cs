@@ -7,9 +7,10 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody2D rg;
     public SpriteRenderer rend;
-    public float Speed = 5;
-    public float Run = 10;
-    public Animator Animator;
+    public const float SPEED_WALK = 5;
+    public const float SPEED_RUN = 10;
+    public float currentSpeed;
+    public Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,13 +20,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float h = Input.GetAxis("Horizontal") * Speed;
-        //float r = Input.GetKey(KeyCode.LeftShift) * Run;
+        currentSpeed = Input.GetKey(KeyCode.LeftShift) ? SPEED_RUN : SPEED_WALK;
+        float h = Input.GetAxis("Horizontal") * currentSpeed;
         float characterVelocity = Mathf.Abs(rg.velocity.x);
         
         rg.velocity = new Vector2(h, rg.velocity.y);
-        //rg.velocity = new Vector2(r, rg.velocity.y);
-        Animator.SetFloat("Speed", rg.velocity.x);
+        Animator.SetFloat("Speed", characterVelocity);
 
         if(h > 0)
         {
